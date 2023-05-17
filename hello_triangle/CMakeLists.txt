@@ -10,10 +10,11 @@ target_link_libraries(hello_triangle glm::glm Vulkan::Vulkan glfw)
 target_include_directories(hello_triangle PUBLIC ${glfw_INCLUDE_DIRS})
 set_property(TARGET hello_triangle PROPERTY CXX_STANDARD 17)
 
+# Adding compiling shader command for every shader from SHADER_SRC
+# the binary files will be put under output binary folder in shaders sub-folder
 foreach(shader ${SHADER_SRC})
   cmake_path(GET shader EXTENSION LAST_ONLY shader_ext)
   string(REPLACE "." "" shader_ext ${shader_ext})
-
   add_custom_command(
     TARGET hello_triangle 
     POST_BUILD 
