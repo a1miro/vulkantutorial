@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <cstdlib>
 #include <string>
+#include <vector>
 
 static const uint32_t WIDTH = 800;
 static const uint32_t HEIGHT = 600;
