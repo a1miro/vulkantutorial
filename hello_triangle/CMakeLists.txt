@@ -4,9 +4,6 @@ set(SHADER_SRC
   ${CMAKE_CURRENT_SOURCE_DIR}/shaders/shader.vert
 )
 
-message(STATUS "Vulkan = ${Vulkan_LIBRARIES}")
-message(FATAL_ERROR ssh "Vulkan = ${Vulkan_INCLUDE_DIRS}")
-
 add_executable(hello_triangle hello_triangle.cpp)
 target_link_libraries(hello_triangle glm::glm Vulkan::Vulkan glfw)
 target_include_directories(hello_triangle PUBLIC ${glfw_INCLUDE_DIRS})

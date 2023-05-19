@@ -4,7 +4,7 @@ project(VulkanTutorial LANGUAGES CXX)
 
 if(DEFINED ENV{ROGUEDDK})
   message(STATUS "ROGUE_DDK is found here $ENV{VULKAN_SDK}")
-  if(NOT DEFINED ENV{ROGUEDDK_BRANCH})
+  if(NOT DEFINED ENV{DDK_BRANCH})
     message(FATAL_ERROR "Please export ROGUEDDK_BRANCH")
   endif()
 
@@ -34,8 +34,17 @@ find_package(glfw3 REQUIRED)
 find_package(glm REQUIRED)
 
 
-option(HELLO_TRIANGLE "Hello triangle" Yes)
+option(BASE_CODE                "0  Base_code"            Yes)
+option(INSTANCE_CREATION        "1 Instance Creation"     Yes)
+option(HELLO_TRIANGLE           "15 Hello triangle"       Yes)
 
+if(BASE_CODE)
+  add_subdirectory(base_code)
+endif()
+
+if(INSTANCE_CREATION)
+  add_subdirectory(instance_creation)
+endif()
 
 if(HELLO_TRIANGLE)
   add_subdirectory(hello_triangle)
