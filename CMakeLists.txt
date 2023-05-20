@@ -1,6 +1,23 @@
-cmake_minimum_required(VERSION 3.15)
-project(VulkanTutorial LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.22)
 
+if(DEFINED ENV{VCPKG_ROOT})
+  message(STATUS "Found VCPKG_ROOT=$ENV{VCPKG_ROOT}")
+  set(vcpkg_root "$ENV{VCPKG_ROOT}")
+  set(CMAKE_TOOLCHAIN_FILE ${vcpkg_root}/scripts/buildsystems/vcpkg.cmake CACHE FILEPATH "" FORCE)
+else()
+  message(
+    [[
+    VCPKG_ROOT was not found, 
+    I highly recommend to install VCPKG and set VCPKG_ROOT, it can be done for Winows, MacOS and Linux.
+    Please follow isntructions from this page https://vcpkg.io/en/getting-started.html,
+    overwise you have to install manually the following packages:
+
+    glm         OpenGL Mathematics
+    glf23       Free, open-source GL Window system
+    ]])
+endif()
+
+project(VulkanTutorial LANGUAGES CXX)
 
 if(DEFINED ENV{VULKAN_SDK})
   message(STATUS "VULKAN_SDK environment variable is found here: $ENV{VULKAN_SDK}")
@@ -33,7 +50,7 @@ find_package(glfw3 REQUIRED)
 find_package(glm REQUIRED)
 
 option(BASE_CODE                "0  Base_code"            Yes)
-option(INSTANCE_CREATION        "1 Instance Creation"     Yes)
+option(INSTANCE_CREATION        "1  Instance Creation"    Yes)
 option(HELLO_TRIANGLE           "15 Hello triangle"       Yes)
 
 if(BASE_CODE)
