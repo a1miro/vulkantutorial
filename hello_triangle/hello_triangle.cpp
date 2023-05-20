@@ -16,6 +16,8 @@
 const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
 
+static std::string SYSTEM_NAME = HOST_SYSTEM_NAME;
+
 const int MAX_FRAMES_IN_FLIGHT = 2;
 
 const std::vector<const char*> validationLayers = {
@@ -172,11 +174,9 @@ private:
     }
 
     void createInstance() {
-        #if 0
         if (enableValidationLayers && !checkValidationLayerSupport()) {
             throw std::runtime_error("validation layers requested, but not available!");
         }
-        #endif
 
         VkApplicationInfo appInfo{};
         appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -207,7 +207,22 @@ private:
             createInfo.pNext = nullptr;
         }
 
-        if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
+        std::vector<const char *> requiredExtensions;
+        for (uint32_t i = 0; i < createInfo.enabledExtensionCount; i++)
+        {
+            requiredExtensions.emplace_back(extensions[i]);
+        }
+
+        if (SYSTEM_NAME == "Darwin")
+        {
+            requiredExtensions.emplace_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
+            createInfo.flags |= VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
+            createInfo.enabledExtensionCount = (uint32_t)requiredExtensions.size();
+            createInfo.ppEnabledExtensionNames = requiredExtensions.data();
+        }
+
+        if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS)
+        {
             throw std::runtime_error("failed to create instance!");
         }
     }
