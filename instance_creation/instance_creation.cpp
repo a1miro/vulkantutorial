@@ -36,6 +36,7 @@ private:
 
     void initVulkan() {
         createInstance();
+        list_all_extensions();
     }
 
     void mainLoop() {
@@ -50,6 +51,23 @@ private:
         glfwDestroyWindow(window);
 
         glfwTerminate();
+    }
+
+    void list_all_extensions()
+    {
+        using std::cout;
+
+        uint32_t extensionCount = 0;
+        vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
+        std::vector<VkExtensionProperties> extensions(extensionCount);
+        vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensions.data());
+
+        cout << "available extensions: \n";
+
+        for (const auto &extension : extensions)
+        {
+            cout << '\t' << extension.extensionName << '\n';
+        }
     }
 
     void createInstance() {
