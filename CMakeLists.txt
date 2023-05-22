@@ -54,6 +54,7 @@ option(INSTANCE_CREATION          "1  Instance Creation"          Yes)
 option(VALIDATION_LAYERS          "2  Validation Layers"          Yes)
 option(PHYSICAL_DEVICE_SELECTION  "3  Physical device selection"  Yes)
 option(HELLO_TRIANGLE             "15 Hello triangle"             Yes)
+option(LIST_PHYSICAL_DEVICES      "Llist physical devices"        Yes)
 
 if(BASE_CODE)
   add_subdirectory(base_code)
@@ -73,5 +74,9 @@ endif()
 
 if(HELLO_TRIANGLE)
   add_subdirectory(hello_triangle)
+endif()
+
+if(LIST_PHYSICAL_DEVICES)
+  add_subdirectory(list_physical_devices)
 endif()
 
