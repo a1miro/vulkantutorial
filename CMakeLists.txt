@@ -7,7 +7,7 @@ if(DEFINED ENV{VCPKG_ROOT})
 else()
   message(
     [[
-    VCPKG_ROOT was not found, 
+    VCPKG_ROOT was not found,
     I highly recommend to install VCPKG and set VCPKG_ROOT, it can be done for Winows, MacOS and Linux.
     Please follow isntructions from this page https://vcpkg.io/en/getting-started.html,
     overwise you have to install manually the following packages:
@@ -49,9 +49,11 @@ find_package(Vulkan REQUIRED)
 find_package(glfw3 REQUIRED)
 find_package(glm REQUIRED)
 
-option(BASE_CODE                "0  Base_code"            Yes)
-option(INSTANCE_CREATION        "1  Instance Creation"    Yes)
-option(HELLO_TRIANGLE           "15 Hello triangle"       Yes)
+option(BASE_CODE                  "0  Base_code"                  Yes)
+option(INSTANCE_CREATION          "1  Instance Creation"          Yes)
+option(VALIDATION_LAYERS          "2  Validation Layers"          Yes)
+option(PHYSICAL_DEVICE_SELECTION  "3  Physical device selection"  Yes)
+option(HELLO_TRIANGLE             "15 Hello triangle"             Yes)
 
 if(BASE_CODE)
   add_subdirectory(base_code)
@@ -59,6 +61,14 @@ endif()
 
 if(INSTANCE_CREATION)
   add_subdirectory(instance_creation)
+endif()
+
+if(VALIDATION_LAYERS)
+  add_subdirectory(validation_layers)
+endif()
+
+if(PHYSICAL_DEVICE_SELECTION)
+  add_subdirectory(physical_device_selection)
 endif()
 
 if(HELLO_TRIANGLE)
