@@ -76,7 +76,7 @@ private:
 
     void initVulkan() {
         createInstance();
-        setupDebugMessenger();
+        //setupDebugMessenger();
         pickPhysicalDevice();
     }
 
@@ -99,9 +99,11 @@ private:
     }
 
     void createInstance() {
+        #if 0
         if (enableValidationLayers && !checkValidationLayerSupport()) {
             throw std::runtime_error("validation layers requested, but not available!");
         }
+        #endif
 
         VkApplicationInfo appInfo{};
         appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -115,10 +117,13 @@ private:
         createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
         createInfo.pApplicationInfo = &appInfo;
 
+        createInfo.enabledExtensionCount = 0;
+        createInfo.ppEnabledExtensionNames = nullptr;
+ 
+#if 0
         auto extensions = getRequiredExtensions();
         createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
         createInfo.ppEnabledExtensionNames = extensions.data();
-
         VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo{};
         if (enableValidationLayers) {
             createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
@@ -145,6 +150,7 @@ private:
             createInfo.enabledExtensionCount = (uint32_t)requiredExtensions.size();
             createInfo.ppEnabledExtensionNames = requiredExtensions.data();
         }
+#endif
 
         if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
             throw std::runtime_error("failed to create instance!");
