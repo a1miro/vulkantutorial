@@ -13,7 +13,7 @@ else()
     overwise you have to install manually the following packages:
 
     glm         OpenGL Mathematics
-    glf23       Free, open-source GL Window system
+    glfw3       Free, open-source GL Window system
     ]])
 endif()
 
@@ -49,13 +49,14 @@ find_package(Vulkan REQUIRED)
 find_package(glfw3 REQUIRED)
 find_package(glm REQUIRED)
 
-option(BASE_CODE                  "0  Base_code"                  Yes)
-option(INSTANCE_CREATION          "1  Instance Creation"          Yes)
-option(VALIDATION_LAYERS          "2  Validation Layers"          Yes)
-option(PHYSICAL_DEVICE_SELECTION  "3  Physical device selection"  Yes)
-option(LOGICAL_DEVICE             "4  Logical Device"             Yes)
-option(HELLO_TRIANGLE             "15 Hello triangle"             Yes)
-option(LIST_PHYSICAL_DEVICES      "Llist physical devices"        Yes)
+option(BASE_CODE                  "0  Base_code"                  No)
+option(INSTANCE_CREATION          "1  Instance Creation"          No)
+option(VALIDATION_LAYERS          "2  Validation Layers"          No)
+option(PHYSICAL_DEVICE_SELECTION  "3  Physical device selection"  No)
+option(LOGICAL_DEVICE             "4  Logical Device"             No)
+option(WINDOW_SURFACE             "5  Window Surface"             Yes)
+option(HELLO_TRIANGLE             "15 Hello triangle"             No)
+option(LIST_PHYSICAL_DEVICES      "Llist physical devices"        No)
 
 if(BASE_CODE)
   add_subdirectory(base_code)
@@ -75,6 +76,10 @@ endif()
 
 if(LOGICAL_DEVICE)
   add_subdirectory(logical_device)
+endif()
+
+if(WINDOW_SURFACE)
+  add_subdirectory(window_surface)
 endif()
 
 if(HELLO_TRIANGLE)
