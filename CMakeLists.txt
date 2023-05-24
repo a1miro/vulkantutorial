@@ -54,7 +54,8 @@ option(INSTANCE_CREATION          "1  Instance Creation"          No)
 option(VALIDATION_LAYERS          "2  Validation Layers"          No)
 option(PHYSICAL_DEVICE_SELECTION  "3  Physical device selection"  No)
 option(LOGICAL_DEVICE             "4  Logical Device"             No)
-option(WINDOW_SURFACE             "5  Window Surface"             Yes)
+option(WINDOW_SURFACE             "5  Window Surface"             No)
+option(SWAP_CHAIN                 "6  Swap chain"                 Yes)
 option(HELLO_TRIANGLE             "15 Hello triangle"             No)
 option(LIST_PHYSICAL_DEVICES      "Llist physical devices"        No)
 
@@ -80,6 +81,10 @@ endif()
 
 if(WINDOW_SURFACE)
   add_subdirectory(window_surface)
+endif()
+
+if(SWAP_CHAIN)
+  add_subdirectory(SWAP_CHAIN)
 endif()
 
 if(HELLO_TRIANGLE)
