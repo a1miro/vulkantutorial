@@ -55,8 +55,9 @@ option(VALIDATION_LAYERS          "2  Validation Layers"          No)
 option(PHYSICAL_DEVICE_SELECTION  "3  Physical device selection"  No)
 option(LOGICAL_DEVICE             "4  Logical Device"             No)
 option(WINDOW_SURFACE             "5  Window Surface"             No)
-option(SWAP_CHAIN                 "6  Swap chain"                 Yes)
-option(HELLO_TRIANGLE             "15 Hello triangle"             No)
+option(SWAP_CHAIN                 "6  Swap chain"                 No)
+option(SHADER_BASE                "9  Shader base"                Yes)
+option(HELLO_TRIANGLE             "15 Hello triangle"             Yes)
 option(LIST_PHYSICAL_DEVICES      "Llist physical devices"        No)
 
 if(BASE_CODE)
@@ -84,8 +85,13 @@ if(WINDOW_SURFACE)
 endif()
 
 if(SWAP_CHAIN)
-  add_subdirectory(SWAP_CHAIN)
+  add_subdirectory(swap_chain)
 endif()
+
+if(SHADER_BASE)
+  add_subdirectory(shader_base)
+endif()
+
 
 if(HELLO_TRIANGLE)
   add_subdirectory(hello_triangle)
