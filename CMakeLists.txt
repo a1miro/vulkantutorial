@@ -55,7 +55,9 @@ option(VALIDATION_LAYERS          "2  Validation Layers"          No)
 option(PHYSICAL_DEVICE_SELECTION  "3  Physical device selection"  No)
 option(LOGICAL_DEVICE             "4  Logical Device"             No)
 option(WINDOW_SURFACE             "5  Window Surface"             No)
-option(SWAP_CHAIN                 "6  Swap chain"                 Yes)
+option(SWAP_CHAIN                 "6  Swap chain"                 No)
+option(IMAGE_VIEWS                "7  Image Views"                No)
+option(GRAPHICS_PIPELINE          "8  Graphics Pipeline"          Yes)
 option(HELLO_TRIANGLE             "15 Hello triangle"             No)
 option(LIST_PHYSICAL_DEVICES      "Llist physical devices"        No)
 
@@ -87,9 +89,19 @@ if(SWAP_CHAIN)
   add_subdirectory(SWAP_CHAIN)
 endif()
 
+if(IMAGE_VIEWS)
+  add_subdirectory(IMAGE_VIEWS)
+endif()
+
+if(GRAPHICS_PIPELINE)
+  add_subdirectory(GRAPHICS_PIPELINE)
+endif()
+
+
 if(HELLO_TRIANGLE)
   add_subdirectory(hello_triangle)
 endif()
+
 
 if(LIST_PHYSICAL_DEVICES)
   add_subdirectory(list_physical_devices)
