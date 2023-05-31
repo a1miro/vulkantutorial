@@ -57,7 +57,8 @@ option(LOGICAL_DEVICE             "4  Logical Device"             No)
 option(WINDOW_SURFACE             "5  Window Surface"             No)
 option(SWAP_CHAIN                 "6  Swap chain"                 No)
 option(IMAGE_VIEWS                "7  Image Views"                No)
-option(GRAPHICS_PIPELINE          "8  Graphics Pipeline"          Yes)
+option(GRAPHICS_PIPELINE          "8  Graphics Pipeline"          No)
+option(SHADER_BASE                "9  Shader base"                Yes)
 option(HELLO_TRIANGLE             "15 Hello triangle"             No)
 option(LIST_PHYSICAL_DEVICES      "Llist physical devices"        No)
 
@@ -86,22 +87,24 @@ if(WINDOW_SURFACE)
 endif()
 
 if(SWAP_CHAIN)
-  add_subdirectory(SWAP_CHAIN)
+  add_subdirectory(swap_chain)
 endif()
 
 if(IMAGE_VIEWS)
-  add_subdirectory(IMAGE_VIEWS)
+  add_subdirectory(swap_chain)
 endif()
 
 if(GRAPHICS_PIPELINE)
-  add_subdirectory(GRAPHICS_PIPELINE)
+  add_subdirectory(swap_chain)
 endif()
 
+if(SHADER_BASE)
+  add_subdirectory(shader_base)
+endif()
 
 if(HELLO_TRIANGLE)
   add_subdirectory(hello_triangle)
 endif()
-
 
 if(LIST_PHYSICAL_DEVICES)
   add_subdirectory(list_physical_devices)
