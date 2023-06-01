@@ -48,6 +48,7 @@ endif()
 find_package(Vulkan REQUIRED)
 find_package(glfw3 REQUIRED)
 find_package(glm REQUIRED)
+find_package(Stb REQUIRED)
 
 option(BASE_CODE                  "0  Base_code"                  No)
 option(INSTANCE_CREATION          "1  Instance Creation"          No)
@@ -58,8 +59,10 @@ option(WINDOW_SURFACE             "5  Window Surface"             No)
 option(SWAP_CHAIN                 "6  Swap chain"                 No)
 option(IMAGE_VIEWS                "7  Image Views"                No)
 option(GRAPHICS_PIPELINE          "8  Graphics Pipeline"          No)
-option(SHADER_BASE                "9  Shader base"                Yes)
+option(SHADER_BASE                "9  Shader base"                No)
+option(FIXED_FUNCTIONS            "10 Fixed functions"            No)
 option(HELLO_TRIANGLE             "15 Hello triangle"             No)
+option(TEXTURE_MAPPING            "26 Texture mapping"           Yes)
 option(LIST_PHYSICAL_DEVICES      "Llist physical devices"        No)
 
 if(BASE_CODE)
@@ -102,9 +105,18 @@ if(SHADER_BASE)
   add_subdirectory(shader_base)
 endif()
 
+if(FIXED_FUNCTIONS)
+  add_subdirectory(fixed_functions)
+endif()
+
 if(HELLO_TRIANGLE)
   add_subdirectory(hello_triangle)
 endif()
+
+if(TEXTURE_MAPPING)
+  add_subdirectory(texture_mapping)
+endif()
+
 
 if(LIST_PHYSICAL_DEVICES)
   add_subdirectory(list_physical_devices)
