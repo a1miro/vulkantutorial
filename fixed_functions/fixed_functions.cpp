@@ -12,9 +12,18 @@
 #include <limits>
 #include <optional>
 #include <set>
+#include <sstream>
+#include <filesystem>
 
 const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
+
+using std::cout;
+using std::endl;
+using std::filesystem::path;
+
+// program current directory
+path currdir;
 
 const std::vector<const char*> validationLayers = {
     "VK_LAYER_KHRONOS_validation"
@@ -349,8 +358,14 @@ private:
     }
 
     void createGraphicsPipeline() {
-        auto vertShaderCode = readFile("shaders/vert.spv");
-        auto fragShaderCode = readFile("shaders/frag.spv");
+        
+        auto vert_spv(currdir);
+        vert_spv.append("shaders").append("vert.spv");
+        auto frag_spv(currdir);
+        frag_spv.append("shaders").append("frag.spv");
+        
+        auto vertShaderCode = readFile(vert_spv.string());
+        auto fragShaderCode = readFile(frag_spv.string());
 
         VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
         VkShaderModule fragShaderModule = createShaderModule(fragShaderCode);
@@ -618,7 +633,10 @@ private:
         std::ifstream file(filename, std::ios::ate | std::ios::binary);
 
         if (!file.is_open()) {
-            throw std::runtime_error("failed to open file!");
+            std::stringstream errss;
+            errss << "failed to open file ";
+            errss << filename;
+            throw std::runtime_error(errss.str());
         }
 
         size_t fileSize = (size_t) file.tellg();
@@ -639,7 +657,24 @@ private:
     }
 };
 
-int main() {
+int main(int argc, char** argv) {
+
+#if 0
+    std::stringstream argvss;
+    for (int i = 0; i < argc; i++)
+    {
+        argvss << argv[i] << " ";
+    }
+
+
+
+    std::cout << "comand arguments:" << std::endl;
+    std::cout << argvss.str() << "\n";
+#endif
+
+    currdir = path(argv[0]).parent_path();
+    cout << currdir << endl;
+
     HelloTriangleApplication app;
 
     try {
