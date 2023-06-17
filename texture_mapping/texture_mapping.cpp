@@ -32,7 +32,7 @@ const std::vector<const char*> validationLayers = {
     "VK_LAYER_KHRONOS_validation"
 };
 
-const std::vector<const char*> deviceExtensions = {
+std::vector<const char*> deviceExtensions = {
     VK_KHR_SWAPCHAIN_EXTENSION_NAME
 };
 
@@ -229,9 +229,9 @@ private:
     }
 
     void mainLoop() {
-        drawFrame();
         while (!glfwWindowShouldClose(window)) {
             glfwPollEvents();
+            drawFrame();
         }
 
         vkDeviceWaitIdle(device);
@@ -334,6 +334,13 @@ private:
         createInfo.pApplicationInfo = &appInfo;
 
         auto extensions = getRequiredExtensions();
+
+        if (std::string(HOST_SYSTEM_NAME) == "Darwin")
+        {
+            extensions.push_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
+            createInfo.flags |= VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
+        }
+
         createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
         createInfo.ppEnabledExtensionNames = extensions.data();
 
@@ -430,6 +437,12 @@ private:
 
         createInfo.pEnabledFeatures = &deviceFeatures;
 
+        if (std::string(HOST_SYSTEM_NAME) == "Darwin")
+        {
+            deviceExtensions.push_back("VK_KHR_portability_subset");
+            //createInfo.flags |= VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
+        }
+
         createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());
         createInfo.ppEnabledExtensionNames = deviceExtensions.data();
 
@@ -439,6 +452,7 @@ private:
         } else {
             createInfo.enabledLayerCount = 0;
         }
+
 
         if (vkCreateDevice(physicalDevice, &createInfo, nullptr, &device) != VK_SUCCESS) {
             throw std::runtime_error("failed to create logical device!");
