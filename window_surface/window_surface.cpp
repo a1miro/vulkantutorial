@@ -1,5 +1,7 @@
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
+#include <vulkan/vk_enum_string_helper.h>
+
 
 #include <iostream>
 #include <stdexcept>
@@ -8,6 +10,7 @@
 #include <cstdlib>
 #include <optional>
 #include <set>
+#include <sstream>
 
 const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
@@ -165,9 +168,17 @@ private:
         }
     }
 
-    void createSurface() {
-        if (glfwCreateWindowSurface(instance, window, nullptr, &surface) != VK_SUCCESS) {
-            throw std::runtime_error("failed to create window surface!");
+    void createSurface()
+    {
+        auto vk_result = glfwCreateWindowSurface(instance, window, nullptr, &surface);
+        if (vk_result != VK_SUCCESS)
+        {
+            std::stringstream ss;
+            ss << "VK Exception: glfwCreateWindowSurface: " << vk_result;
+            ss << " (" << string_VkResult(vk_result) << ")" << "\n";
+            ss << __FILE__ << ":" << __LINE__;
+
+            throw std::runtime_error(ss.str());
         }
     }
 

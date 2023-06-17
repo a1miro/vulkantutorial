@@ -14,29 +14,26 @@ else()
 
     glm         OpenGL Mathematics
     glfw3       Free, open-source GL Window system
+    stb         header only, portable C utility library
     ]])
 endif()
 
 project(VulkanTutorial LANGUAGES CXX)
 
 if(DEFINED ENV{VULKAN_SDK})
-  message(STATUS "VULKAN_SDK environment variable is found here: $ENV{VULKAN_SDK}")
+  set(VULKAN_SDK "$ENV{VULKAN_SDK}")
+  find_package(Vulkan REQUIRED)
 else()
-  message(STATUS "VULKAN_SDK variable is not found, checking if the package is installed")
+  message(STATUS "VULKAN_SDK variable was not found, trying to find it in the system")
+  find_package(Vulkan REQUIRED)
+  if(Vulkan_FOUND)
+    message(STATUS "Vulkan SDK is found")
+  else()
+    message(FATAL_ERROR "Vulkan SDK is not found")
+  endif()
 endif()
 
-if("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Linux")
-  add_compile_definitions(HOST_SYSTEM_NAME="Linux")
-endif()
-
-if("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Windows")
-  add_compile_definitions(HOST_SYSTEM_NAME="Windows")
-endif()
-
-if("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Darwin")
-  add_compile_definitions(HOST_SYSTEM_NAME="Darwin")
-endif()
-
+add_compile_definitions(HOST_SYSTEM_NAME="${CMAKE_HOST_SYSTEM_NAME}")
 
 find_program(GLSLC NAMES glslc glslc.exe)
 if(GLSLC)
@@ -55,14 +52,14 @@ option(INSTANCE_CREATION          "1  Instance Creation"          No)
 option(VALIDATION_LAYERS          "2  Validation Layers"          No)
 option(PHYSICAL_DEVICE_SELECTION  "3  Physical device selection"  No)
 option(LOGICAL_DEVICE             "4  Logical Device"             No)
-option(WINDOW_SURFACE             "5  Window Surface"             No)
+option(WINDOW_SURFACE             "5  Window Surface"             Yes)
 option(SWAP_CHAIN                 "6  Swap chain"                 No)
 option(IMAGE_VIEWS                "7  Image Views"                No)
 option(GRAPHICS_PIPELINE          "8  Graphics Pipeline"          No)
 option(SHADER_BASE                "9  Shader base"                No)
-option(FIXED_FUNCTIONS            "10 Fixed functions"           Yes)
+option(FIXED_FUNCTIONS            "10 Fixed functions"            No)
 option(HELLO_TRIANGLE             "15 Hello triangle"             No)
-option(TEXTURE_MAPPING            "26 Texture mapping"           Yes)
+option(TEXTURE_MAPPING            "26 Texture mapping"            No)
 option(LIST_PHYSICAL_DEVICES      "Llist physical devices"        No)
 
 if(BASE_CODE)

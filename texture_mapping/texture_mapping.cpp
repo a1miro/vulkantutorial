@@ -229,9 +229,9 @@ private:
     }
 
     void mainLoop() {
-        drawFrame();
         while (!glfwWindowShouldClose(window)) {
             glfwPollEvents();
+            drawFrame();
         }
 
         vkDeviceWaitIdle(device);
@@ -759,6 +759,7 @@ private:
         textureImageView = createImageView(textureImage, VK_FORMAT_R8G8B8A8_SRGB);
     }
 
+    
     void createTextureSampler() {
         VkPhysicalDeviceProperties properties{};
         vkGetPhysicalDeviceProperties(physicalDevice, &properties);
@@ -1369,6 +1370,7 @@ private:
 
     bool isDeviceSuitable(VkPhysicalDevice device) {
         QueueFamilyIndices indices = findQueueFamilies(device);
+
 
         bool extensionsSupported = checkDeviceExtensionSupport(device);
 
