@@ -1,22 +1,28 @@
 cmake_minimum_required(VERSION 3.22)
 
-if(DEFINED ENV{VCPKG_ROOT})
-  message(STATUS "Found VCPKG_ROOT=$ENV{VCPKG_ROOT}")
-  set(vcpkg_root "$ENV{VCPKG_ROOT}")
-  set(CMAKE_TOOLCHAIN_FILE ${vcpkg_root}/scripts/buildsystems/vcpkg.cmake CACHE FILEPATH "" FORCE)
-else()
-  message(
-    [[
-    VCPKG_ROOT was not found,
-    I highly recommend to install VCPKG and set VCPKG_ROOT, it can be done for Winows, MacOS and Linux.
-    Please follow isntructions from this page https://vcpkg.io/en/getting-started.html,
-    overwise you have to install manually the following packages:
+#if(DEFINED ENV{VCPKG_ROOT})
+#  message(STATUS "Found VCPKG_ROOT=$ENV{VCPKG_ROOT}")
+#  set(vcpkg_root "$ENV{VCPKG_ROOT}")
+#  set(CMAKE_TOOLCHAIN_FILE ${vcpkg_root}/scripts/buildsystems/vcpkg.cmake CACHE FILEPATH "" FORCE)
+#else()
+#  message(
+#    [[
+#    VCPKG_ROOT was not found,
+#    I highly recommend to install VCPKG and set VCPKG_ROOT, it can be done for Winows, MacOS and Linux.
+#    Please follow isntructions from this page https://vcpkg.io/en/getting-started.html,
+#    overwise you have to install manually the following packages:
+#
+#    glm         OpenGL Mathematics
+#    glfw3       Free, open-source GL Window system
+#    stb         header only, portable C utility library
+#    ]])
+#endif()
 
-    glm         OpenGL Mathematics
-    glfw3       Free, open-source GL Window system
-    stb         header only, portable C utility library
-    ]])
+if(not CMAKE_TOOLCHAIN_FILE)
+  set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake 
+  CACHE FILEPATH "VCPKG CMake toolchain file" FORCE)
 endif()
+message(STATUS "CMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}")
 
 project(VulkanTutorial LANGUAGES CXX)
 
@@ -52,13 +58,13 @@ option(INSTANCE_CREATION          "1  Instance Creation"          No)
 option(VALIDATION_LAYERS          "2  Validation Layers"          No)
 option(PHYSICAL_DEVICE_SELECTION  "3  Physical device selection"  No)
 option(LOGICAL_DEVICE             "4  Logical Device"             No)
-option(WINDOW_SURFACE             "5  Window Surface"             Yes)
+option(WINDOW_SURFACE             "5  Window Surface"             No)
 option(SWAP_CHAIN                 "6  Swap chain"                 No)
 option(IMAGE_VIEWS                "7  Image Views"                No)
 option(GRAPHICS_PIPELINE          "8  Graphics Pipeline"          No)
 option(SHADER_BASE                "9  Shader base"                No)
 option(FIXED_FUNCTIONS            "10 Fixed functions"            No)
-option(HELLO_TRIANGLE             "15 Hello triangle"             No)
+option(HELLO_TRIANGLE             "15 Hello triangle"             Yes)
 option(TEXTURE_MAPPING            "26 Texture mapping"            No)
 option(LIST_PHYSICAL_DEVICES      "Llist physical devices"        No)
 
