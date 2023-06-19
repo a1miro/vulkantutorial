@@ -18,11 +18,87 @@ cmake_minimum_required(VERSION 3.22)
 #    ]])
 #endif()
 
-if(not CMAKE_TOOLCHAIN_FILE)
-  set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake 
-  CACHE FILEPATH "VCPKG CMake toolchain file" FORCE)
+#[[
+if(NOT CMAKE_TOOLCHAIN_FILE)
+  set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake CACHE FILEPATH
+  "VCPKG CMake toolchain file" FORCE)
 endif()
 message(STATUS "CMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}")
+
+# Get VCPKG_RROT from CMAKE_TOOLCHAIN_FILE
+get_filename_component(VCPKG_ROOT ${CMAKE_TOOLCHAIN_FILE} DIRECTORY)
+string(REPLACE "/scripts/buildsystems" "" VCPKG_ROOT ${VCPKG_ROOT})
+message(STATUS "VCPKG_ROOT=${VCPKG_ROOT}")
+
+# check directory existence
+if(NOT EXISTS ${VCPKG_ROOT}/triplets)
+  message(STATUS "vcpkg is not initialised, let's run bootstrap-vcpkg")
+
+  if(CMAKE_HOST_SYTEM_NAME STREQUAL "Windows")
+    #set(VCPKG_TARGET_TRIPLET "x64-windows" CACHE STRING "VCPKG target triplet" FORCE)
+    execute_process(COMMAND ${CMAKE_SOURCE_DIR}/vcpkg/bootstrap-vcpkg.bat)
+  else()
+    #set(VCPKG_TARGET_TRIPLET "x64-linux" CACHE STRING "VCPKG target triplet" FORCE)
+    execute_process(COMMAND ${CMAKE_SOURCE_DIR}/vcpkg/bootstrap-vcpkg.sh)
+  endif()
+
+endif()
+
+
+find_package(glfw3)
+if(glfw3_FOUND)
+  message(STATUS "glfw3 is found")
+else()
+  message("Installing glfw3 package using vcpkg")
+  execute_process(COMMAND vcpkg install glfw3)
+  find_package(glfw3 REQUIRED)
+endif()
+
+find_package(glm)
+if(glm_FOUND)
+  message(STATUS "glm is found")
+else()
+  message("Installing glm package using vcpkg")
+  execute_process(COMMAND vcpkg install glm)
+  find_package(glm REQUIRED)
+endif()
+
+#find_package(glm REQUIRED)
+#find_package(Stb REQUIRED)
+#]]
+
+# Adding our own cmake modules
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+
+# include vcpkg cmake module
+include(vcpkg-utils)
+
+# Adding vcpkg cmake modules
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/cmake)
+
+# initialize vcpkg
+vcpkg_init()
+
+# set the packages to install
+set(VCPKG_PACKAGES
+  glfw3     # GL Window system
+  glm       # OpenGL Mathematics
+  )
+
+# install the packages
+vcpkg_install(${VCPKG_PACKAGES})
+
+#[[
+# TODO: Replace hard-coded list of packages with reading from vcpkg.json
+# Read packages from vcpkg.json
+vcpkg_read_json(${CMAKE_CURRENT_SOURCE_DIR}/vcpkg.json VCPKG_PACKAGES)
+message(FATAL_ERROR "VCPKG_PACKAGES=${VCPKG_PACKAGES}")
+#]]
+
+foreach(package ${VCPKG_PACKAGES})
+  find_package(${package} REQUIRED)
+endforeach()
+
 
 project(VulkanTutorial LANGUAGES CXX)
 
@@ -48,10 +124,6 @@ else()
   message(FATAL_ERROR "GSLC compiler is not found")
 endif()
 
-find_package(Vulkan REQUIRED)
-find_package(glfw3 REQUIRED)
-find_package(glm REQUIRED)
-find_package(Stb REQUIRED)
 
 option(BASE_CODE                  "0  Base_code"                  No)
 option(INSTANCE_CREATION          "1  Instance Creation"          No)

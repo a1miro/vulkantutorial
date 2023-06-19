@@ -1,4 +1,7 @@
 
+# retreiving all shader files from shaders sub-folder
+file(GLOB_RECURSE SHADER_SRC ${CMAKE_CURRENT_SOURCE_DIR}/shaders/*)
+
 # retrieving all texture files from textures sub-folder
 file(GLOB_RECURSE TEXTURE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/textures/*)
 

@@ -11,6 +11,7 @@
 #include <optional>
 #include <set>
 #include <sstream>
+#include <thread>
 
 const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
@@ -69,6 +70,8 @@ private:
     VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
     VkDevice device;
 
+    std::vector<const char *> deviceExtensions;
+
     VkQueue graphicsQueue;
     VkQueue presentQueue;
 
@@ -92,6 +95,8 @@ private:
     void mainLoop() {
         while (!glfwWindowShouldClose(window)) {
             glfwPollEvents();
+            // sleep for 0.5 seconds
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
 
@@ -128,6 +133,15 @@ private:
         createInfo.pApplicationInfo = &appInfo;
 
         auto extensions = getRequiredExtensions();
+
+        // In MacOS, we need to enable these instance extensions and the flag
+        if (strcmp(HOST_SYSTEM_NAME, "Darwin") == 0)
+        {
+            extensions.push_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
+            extensions.push_back(VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME);
+            createInfo.flags |= VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
+        }
+
         createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
         createInfo.ppEnabledExtensionNames = extensions.data();
 
@@ -231,7 +245,18 @@ private:
 
         createInfo.pEnabledFeatures = &deviceFeatures;
 
+        // In MacOS, we need to enable VK_KHR_portability_subset device extension
+        if (strcmp(HOST_SYSTEM_NAME, "Darwin") == 0)
+        {
+            deviceExtensions.push_back("VK_KHR_portability_subset");
+            createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());
+            createInfo.ppEnabledExtensionNames = deviceExtensions.data();
+        }
+    else
+    {
+        createInfo.ppEnabledExtensionNames = nullptr;
         createInfo.enabledExtensionCount = 0;
+    }
 
         if (enableValidationLayers) {
             createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());

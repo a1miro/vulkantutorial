@@ -335,7 +335,7 @@ private:
 
         auto extensions = getRequiredExtensions();
 
-        if (std::string(HOST_SYSTEM_NAME) == "Darwin")
+        if (strcmp(HOST_SYSTEM_NAME, "Darwin") == 0)
         {
             extensions.push_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
             createInfo.flags |= VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
@@ -437,10 +437,10 @@ private:
 
         createInfo.pEnabledFeatures = &deviceFeatures;
 
-        if (std::string(HOST_SYSTEM_NAME) == "Darwin")
+        if (strcmp(HOST_SYSTEM_NAME, "Darwin") == 0)
         {
             deviceExtensions.push_back("VK_KHR_portability_subset");
-            //createInfo.flags |= VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
+            createInfo.flags |= VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
         }
 
         createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());
@@ -773,7 +773,7 @@ private:
         textureImageView = createImageView(textureImage, VK_FORMAT_R8G8B8A8_SRGB);
     }
 
-    
+
     void createTextureSampler() {
         VkPhysicalDeviceProperties properties{};
         vkGetPhysicalDeviceProperties(physicalDevice, &properties);
