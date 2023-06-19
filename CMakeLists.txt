@@ -73,20 +73,29 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 # include vcpkg cmake module
 include(vcpkg-utils)
 
-# Adding vcpkg cmake modules
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/cmake)
-
 # initialize vcpkg
-vcpkg_init()
+#vcpkg_init()
+
+# Adding vcpkg cmake modules
+#list(APPEND CMAKE_MODULE_PATH ${VCPKG_ROOT}/scripts/cmake)
+list(APPEND CMAKE_MODULE_PATH ${VCPKG_ROOT}/packages/stb_x64-osx/share/stb)
+
+message(STATUS "VCPKG_ROOT=${VCPKG_ROOT}")
+message(STATUS "CMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}")
+#message(FATAL_ERROR "CMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}")
+
+
+
 
 # set the packages to install
 set(VCPKG_PACKAGES
   glfw3     # GL Window system
   glm       # OpenGL Mathematics
+  Stb       # header only, portable C utility library
   )
 
 # install the packages
-vcpkg_install(${VCPKG_PACKAGES})
+# vcpkg_install(${VCPKG_PACKAGES})
 
 #[[
 # TODO: Replace hard-coded list of packages with reading from vcpkg.json
@@ -136,8 +145,8 @@ option(IMAGE_VIEWS                "7  Image Views"                No)
 option(GRAPHICS_PIPELINE          "8  Graphics Pipeline"          No)
 option(SHADER_BASE                "9  Shader base"                No)
 option(FIXED_FUNCTIONS            "10 Fixed functions"            No)
-option(HELLO_TRIANGLE             "15 Hello triangle"             Yes)
-option(TEXTURE_MAPPING            "26 Texture mapping"            No)
+option(HELLO_TRIANGLE             "15 Hello triangle"             No)
+option(TEXTURE_MAPPING            "26 Texture mapping"            Yes)
 option(LIST_PHYSICAL_DEVICES      "Llist physical devices"        No)
 
 if(BASE_CODE)

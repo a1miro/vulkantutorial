@@ -1,5 +1,5 @@
 
-function(vcpkg_init)
+#function(vcpkg_init)
 if(NOT CMAKE_TOOLCHAIN_FILE)
   set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake CACHE FILEPATH
   "VCPKG CMake toolchain file" FORCE)
@@ -9,10 +9,10 @@ message(STATUS "CMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}")
 # Get VCPKG_RROT from CMAKE_TOOLCHAIN_FILE
 get_filename_component(VCPKG_ROOT ${CMAKE_TOOLCHAIN_FILE} DIRECTORY)
 string(REPLACE "/scripts/buildsystems" "" VCPKG_ROOT ${VCPKG_ROOT})
-message(STATUS "VCPKG_ROOT=${VCPKG_ROOT}")
+set(VCPKG_ROOT ${VCPKG_ROOT} CACHE PATH "VCPKG root directory" FORCE)
 
 # check directory existence
-if(NOT EXISTS ${VCPKG_ROOT}/triplets)
+if(NOT EXISTS ${VCPKG_ROOT}/vcpkg)
   message(STATUS "vcpkg is not initialised, let's run bootstrap-vcpkg")
 
   if(CMAKE_HOST_SYTEM_NAME STREQUAL "Windows")
@@ -24,7 +24,7 @@ if(NOT EXISTS ${VCPKG_ROOT}/triplets)
   endif()
 
 endif()
-endfunction()
+#endfunction()
 
 # function to install package using vcpkg
 function(vcpkg_install packages)
@@ -42,8 +42,3 @@ function(vcpkg_install packages)
 endfunction()
 
 
-# function to read the list of packages from vcpkg.json file
-function(vcpkg_read_json vcpkg_packages)
-  file(READ ${CMAKE_SOURCE_DIR}/vcpkg.json vcpkg_json)
-  string(REGEX MATCHALL "\"dependencies\": \"[a-zA-Z0-9_]+\"" vcpkg_packages ${vcpkg_json})
-endfunction()
