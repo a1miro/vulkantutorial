@@ -78,13 +78,14 @@ include(vcpkg-utils)
 
 # Adding vcpkg cmake modules
 #list(APPEND CMAKE_MODULE_PATH ${VCPKG_ROOT}/scripts/cmake)
-list(APPEND CMAKE_MODULE_PATH ${VCPKG_ROOT}/packages/stb_x64-osx/share/stb)
+#list(APPEND CMAKE_MODULE_PATH ${VCPKG_ROOT}/packages/stb_x64-osx/share/stb)
 
 message(STATUS "VCPKG_ROOT=${VCPKG_ROOT}")
 message(STATUS "CMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}")
 #message(FATAL_ERROR "CMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}")
 
 
+project(VulkanTutorial LANGUAGES CXX)
 
 
 # set the packages to install
@@ -107,9 +108,6 @@ message(FATAL_ERROR "VCPKG_PACKAGES=${VCPKG_PACKAGES}")
 foreach(package ${VCPKG_PACKAGES})
   find_package(${package} REQUIRED)
 endforeach()
-
-
-project(VulkanTutorial LANGUAGES CXX)
 
 if(DEFINED ENV{VULKAN_SDK})
   set(VULKAN_SDK "$ENV{VULKAN_SDK}")
