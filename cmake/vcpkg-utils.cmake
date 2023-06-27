@@ -1,5 +1,5 @@
 
-#function(vcpkg_init)
+function(vcpkg_init)
 if(NOT CMAKE_TOOLCHAIN_FILE)
   set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake CACHE FILEPATH
   "VCPKG CMake toolchain file" FORCE)
@@ -24,7 +24,7 @@ if(NOT EXISTS ${VCPKG_ROOT}/vcpkg)
   endif()
 
 endif()
-#endfunction()
+endfunction()
 
 # function to install package using vcpkg
 function(vcpkg_install packages)
