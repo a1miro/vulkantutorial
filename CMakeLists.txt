@@ -64,7 +64,7 @@ option(IMAGE_VIEWS                "7  Image Views"                No)
 option(GRAPHICS_PIPELINE          "8  Graphics Pipeline"          No)
 option(SHADER_BASE                "9  Shader base"                No)
 option(FIXED_FUNCTIONS            "10 Fixed functions"            No)
-option(HELLO_TRIANGLE             "15 Hello triangle"             No)
+option(HELLO_TRIANGLE             "15 Hello triangle"             Yes)
 option(TEXTURE_MAPPING            "26 Texture mapping"            Yes)
 option(LIST_PHYSICAL_DEVICES      "Llist physical devices"        No)
 
