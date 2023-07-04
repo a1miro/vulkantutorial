@@ -26,6 +26,9 @@ set(VCPKG_PACKAGES
   Stb       # header only, portable C utility library
   )
 
+# set global C++ standard
+set(CMAKE_CXX_STANDARD 20)
+
 foreach(package ${VCPKG_PACKAGES})
   find_package(${package} REQUIRED)
 endforeach()
@@ -65,6 +68,9 @@ option(GRAPHICS_PIPELINE          "8  Graphics Pipeline"          No)
 option(SHADER_BASE                "9  Shader base"                No)
 option(FIXED_FUNCTIONS            "10 Fixed functions"            No)
 option(HELLO_TRIANGLE             "15 Hello triangle"             Yes)
+option(VERTEX_INPUT_BUFFER        "18 Vertex Input buffer"        Yes)
+option(STAGING_BUFFER             "20 Staging buffer"             Yes)
+option(INDEX_BUFFER               "21 Index buffer"               Yes)
 option(TEXTURE_MAPPING            "26 Texture mapping"            Yes)
 option(LIST_PHYSICAL_DEVICES      "Llist physical devices"        No)
 
@@ -114,6 +120,18 @@ endif()
 
 if(HELLO_TRIANGLE)
   add_subdirectory(hello_triangle)
+endif()
+
+if(VERTEX_INPUT_BUFFER)
+  add_subdirectory(vertex_input)
+endif()
+
+if(STAGING_BUFFER)
+  add_subdirectory(staging_buffer)
+endif()
+
+if(INDEX_BUFFER)
+  add_subdirectory(index_buffer)
 endif()
 
 if(TEXTURE_MAPPING)
