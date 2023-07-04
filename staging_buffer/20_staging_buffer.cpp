@@ -272,6 +272,7 @@ private:
 
 #if __APPLE__
         extensions.push_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
+        extensions.push_back("VK_KHR_get_physical_device_properties2");
         createInfo.flags |= VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
 #endif
         createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
@@ -371,7 +372,6 @@ private:
 
     #if __APPLE__
             deviceExtensions.push_back("VK_KHR_portability_subset");
-            createInfo.flags |= VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
     #endif
 
         createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());
@@ -1081,7 +1081,7 @@ private:
         std::ifstream file(filename, std::ios::ate | std::ios::binary);
 
         if (!file.is_open()) {
-            throw std::runtime_error("failed to open file!");
+            throw std::runtime_error("failed to open file " + filename);
         }
 
         size_t fileSize = (size_t) file.tellg();
