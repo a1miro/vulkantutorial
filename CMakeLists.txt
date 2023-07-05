@@ -71,6 +71,8 @@ option(HELLO_TRIANGLE             "15 Hello triangle"             Yes)
 option(VERTEX_INPUT_BUFFER        "18 Vertex Input buffer"        Yes)
 option(STAGING_BUFFER             "20 Staging buffer"             Yes)
 option(INDEX_BUFFER               "21 Index buffer"               Yes)
+option(DESCRIPTOR_LAYOUT          "22 Descriptor layout"          Yes)
+option(DESCRIPTOR_SETS            "23 Descriptor sets"            Yes)
 option(TEXTURE_MAPPING            "26 Texture mapping"            Yes)
 option(LIST_PHYSICAL_DEVICES      "Llist physical devices"        No)
 
@@ -132,6 +134,14 @@ endif()
 
 if(INDEX_BUFFER)
   add_subdirectory(index_buffer)
+endif()
+
+if(DESCRIPTOR_LAYOUT)
+  add_subdirectory(descriptor_layout)
+endif()
+
+if(DESCRIPTOR_SETS)
+  add_subdirectory(descriptor_sets)
 endif()
 
 if(TEXTURE_MAPPING)
